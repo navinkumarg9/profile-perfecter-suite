@@ -11,6 +11,8 @@ import { PDFExport } from "@/components/PDFExport";
 import { ResumePreview } from "@/components/resume/ResumePreview";
 import { useResumeData } from "@/hooks/useResumeData";
 import { toast } from "@/hooks/use-toast";
+import { Chatbot } from "@/components/Chatbot";
+import { ResumeScore } from "@/components/ResumeScore";
 import { FileText, Eye, Edit, Sparkles } from "lucide-react";
 
 const Index = () => {
@@ -157,6 +159,7 @@ const Index = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               <div className="lg:col-span-1 space-y-6">
+                <ResumeScore resume={resume} />
                 <TemplateSelector
                   selectedTemplate={resume.template}
                   onSelectTemplate={handleTemplateSelect}
@@ -188,8 +191,8 @@ const Index = () => {
             </div>
           </div>
         ) : (
-          // Edit Mode
-          <div className="max-w-4xl mx-auto">
+          // Edit Mode with Live Preview
+          <div className="max-w-7xl mx-auto">
             <Card className="mb-8 gradient-card shadow-elegant">
               <CardHeader className="text-center">
                 <CardTitle className="flex items-center justify-center gap-2 text-2xl">
@@ -202,63 +205,107 @@ const Index = () => {
               </CardHeader>
             </Card>
 
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-              <TabsList className="grid w-full grid-cols-5 h-12 bg-white shadow-card">
-                <TabsTrigger value="personal" className="data-[state=active]:gradient-primary data-[state=active]:text-white">
-                  Personal
-                </TabsTrigger>
-                <TabsTrigger value="experience" className="data-[state=active]:gradient-primary data-[state=active]:text-white">
-                  Experience
-                </TabsTrigger>
-                <TabsTrigger value="education" className="data-[state=active]:gradient-primary data-[state=active]:text-white">
-                  Education
-                </TabsTrigger>
-                <TabsTrigger value="skills" className="data-[state=active]:gradient-primary data-[state=active]:text-white">
-                  Skills
-                </TabsTrigger>
-                <TabsTrigger value="projects" className="data-[state=active]:gradient-primary data-[state=active]:text-white">
-                  Projects
-                </TabsTrigger>
-              </TabsList>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Left Side - Forms */}
+              <div className="space-y-6">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+                  <TabsList className="grid w-full grid-cols-5 h-12 bg-white shadow-card">
+                    <TabsTrigger value="personal" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                      Personal
+                    </TabsTrigger>
+                    <TabsTrigger value="experience" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                      Experience
+                    </TabsTrigger>
+                    <TabsTrigger value="education" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                      Education
+                    </TabsTrigger>
+                    <TabsTrigger value="skills" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                      Skills
+                    </TabsTrigger>
+                    <TabsTrigger value="projects" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                      Projects
+                    </TabsTrigger>
+                  </TabsList>
 
-              <TabsContent value="personal">
-                <PersonalInfoForm
-                  initialData={resume.personalInfo}
-                  onSubmit={handlePersonalInfoSubmit}
-                />
-              </TabsContent>
+                  <TabsContent value="personal">
+                    <PersonalInfoForm
+                      initialData={resume.personalInfo}
+                      onSubmit={handlePersonalInfoSubmit}
+                    />
+                  </TabsContent>
 
-              <TabsContent value="experience">
-                <WorkExperienceForm
-                  initialData={resume.workExperience}
-                  onSubmit={handleWorkExperienceSubmit}
-                />
-              </TabsContent>
+                  <TabsContent value="experience">
+                    <WorkExperienceForm
+                      initialData={resume.workExperience}
+                      onSubmit={handleWorkExperienceSubmit}
+                    />
+                  </TabsContent>
 
-              <TabsContent value="education">
-                <EducationForm
-                  initialData={resume.education}
-                  onSubmit={handleEducationSubmit}
-                />
-              </TabsContent>
+                  <TabsContent value="education">
+                    <EducationForm
+                      initialData={resume.education}
+                      onSubmit={handleEducationSubmit}
+                    />
+                  </TabsContent>
 
-              <TabsContent value="skills">
-                <SkillsForm
-                  initialData={resume.skills}
-                  onSubmit={handleSkillsSubmit}
-                />
-              </TabsContent>
+                  <TabsContent value="skills">
+                    <SkillsForm
+                      initialData={resume.skills}
+                      onSubmit={handleSkillsSubmit}
+                    />
+                  </TabsContent>
 
-              <TabsContent value="projects">
-                <ProjectsForm
-                  initialData={resume.projects}
-                  onSubmit={handleProjectsSubmit}
-                />
-              </TabsContent>
-            </Tabs>
+                  <TabsContent value="projects">
+                    <ProjectsForm
+                      initialData={resume.projects}
+                      onSubmit={handleProjectsSubmit}
+                    />
+                  </TabsContent>
+                </Tabs>
+              </div>
+
+              {/* Right Side - Live Preview */}
+              <div className="space-y-6">
+                <ResumeScore resume={resume} />
+                <Card className="shadow-elegant sticky top-24">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Eye className="h-5 w-5 text-primary" />
+                      Live Preview
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <div 
+                      ref={resumeRef} 
+                      className="w-full overflow-auto max-h-[600px]"
+                      style={{ transform: 'scale(0.7)', transformOrigin: 'top left', width: '142.86%' }}
+                    >
+                      <ResumePreview resume={resume} />
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <div className="space-y-4">
+                  <TemplateSelector
+                    selectedTemplate={resume.template}
+                    onSelectTemplate={handleTemplateSelect}
+                  />
+                  <PDFExport
+                    resumeRef={resumeRef}
+                    fileName={resume.personalInfo.fullName ? 
+                      resume.personalInfo.fullName.replace(/\s+/g, '_').toLowerCase() + '_resume' : 
+                      'resume'
+                    }
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
+      
+      {/* Chatbot */}
+      <Chatbot resume={resume} activeSection={activeTab} />
     </div>
   );
 };

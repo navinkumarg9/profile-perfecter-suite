@@ -37,6 +37,27 @@ const templates = [
     preview: '⚪',
     category: 'minimal',
   },
+  {
+    id: 'professional' as const,
+    name: 'Professional',
+    description: 'Corporate-style with blue accents and structured layout',
+    preview: '💼',
+    category: 'professional',
+  },
+  {
+    id: 'executive' as const,
+    name: 'Executive',
+    description: 'Sophisticated design for senior-level positions',
+    preview: '🏆',
+    category: 'professional',
+  },
+  {
+    id: 'technical' as const,
+    name: 'Technical',
+    description: 'Developer-focused with code-style formatting',
+    preview: '💻',
+    category: 'technical',
+  },
 ];
 
 export function TemplateSelector({ selectedTemplate, onSelectTemplate }: TemplateSelectorProps) {
