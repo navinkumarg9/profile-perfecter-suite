@@ -205,9 +205,9 @@ const Index = () => {
               </CardHeader>
             </Card>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
               {/* Left Side - Forms */}
-              <div className="space-y-6">
+              <div className="xl:col-span-2 space-y-6">
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
                   <TabsList className="grid w-full grid-cols-5 h-12 bg-white shadow-card">
                     <TabsTrigger value="personal" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
@@ -265,7 +265,7 @@ const Index = () => {
               </div>
 
               {/* Right Side - Live Preview */}
-              <div className="space-y-6">
+              <div className="xl:col-span-1 space-y-6">
                 <ResumeScore resume={resume} />
                 <Card className="shadow-elegant sticky top-24">
                   <CardHeader>
