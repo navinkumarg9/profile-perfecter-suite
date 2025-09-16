@@ -49,12 +49,44 @@ export interface Project {
   endDate: string;
 }
 
+export interface Certification {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+  expiryDate?: string;
+  credentialId?: string;
+  url?: string;
+}
+
+export interface Language {
+  id: string;
+  name: string;
+  level: 'basic' | 'intermediate' | 'advanced' | 'fluent' | 'native';
+}
+
+export interface Interest {
+  id: string;
+  name: string;
+  category?: string;
+}
+
+export interface CustomSection {
+  id: string;
+  title: string;
+  content: string;
+}
+
 export interface Resume {
   personalInfo: PersonalInfo;
   workExperience: WorkExperience[];
   education: Education[];
   skills: Skill[];
   projects: Project[];
+  certifications: Certification[];
+  languages: Language[];
+  interests: Interest[];
+  customSections: CustomSection[];
   template: 'modern' | 'classic' | 'creative' | 'minimal' | 'professional' | 'executive' | 'technical';
 }
 

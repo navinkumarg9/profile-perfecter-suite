@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Resume, PersonalInfo, WorkExperience, Education, Skill, Project } from '@/types/resume';
+import { Resume, PersonalInfo, WorkExperience, Education, Skill, Project, Certification, Language, Interest, CustomSection } from '@/types/resume';
 
 const defaultPersonalInfo: PersonalInfo = {
   fullName: '',
@@ -18,6 +18,10 @@ const defaultResume: Resume = {
   education: [],
   skills: [],
   projects: [],
+  certifications: [],
+  languages: [],
+  interests: [],
+  customSections: [],
   template: 'modern',
 };
 
@@ -113,6 +117,66 @@ export const useResumeData = () => {
     setResume(prev => ({ ...prev, template }));
   };
 
+  const updateCertifications = (certifications: Certification[]) => {
+    setResume(prev => ({ ...prev, certifications }));
+  };
+
+  const addCertification = (certification: Omit<Certification, 'id'>) => {
+    const newCertification: Certification = {
+      ...certification,
+      id: Date.now().toString(),
+    };
+    setResume(prev => ({
+      ...prev,
+      certifications: [...prev.certifications, newCertification],
+    }));
+  };
+
+  const updateLanguages = (languages: Language[]) => {
+    setResume(prev => ({ ...prev, languages }));
+  };
+
+  const addLanguage = (language: Omit<Language, 'id'>) => {
+    const newLanguage: Language = {
+      ...language,
+      id: Date.now().toString(),
+    };
+    setResume(prev => ({
+      ...prev,
+      languages: [...prev.languages, newLanguage],
+    }));
+  };
+
+  const updateInterests = (interests: Interest[]) => {
+    setResume(prev => ({ ...prev, interests }));
+  };
+
+  const addInterest = (interest: Omit<Interest, 'id'>) => {
+    const newInterest: Interest = {
+      ...interest,
+      id: Date.now().toString(),
+    };
+    setResume(prev => ({
+      ...prev,
+      interests: [...prev.interests, newInterest],
+    }));
+  };
+
+  const updateCustomSections = (customSections: CustomSection[]) => {
+    setResume(prev => ({ ...prev, customSections }));
+  };
+
+  const addCustomSection = (customSection: Omit<CustomSection, 'id'>) => {
+    const newCustomSection: CustomSection = {
+      ...customSection,
+      id: Date.now().toString(),
+    };
+    setResume(prev => ({
+      ...prev,
+      customSections: [...prev.customSections, newCustomSection],
+    }));
+  };
+
   const resetResume = () => {
     setResume(defaultResume);
     localStorage.removeItem('resume-data');
@@ -130,6 +194,14 @@ export const useResumeData = () => {
     addSkill,
     updateProjects,
     addProject,
+    updateCertifications,
+    addCertification,
+    updateLanguages,
+    addLanguage,
+    updateInterests,
+    addInterest,
+    updateCustomSections,
+    addCustomSection,
     updateTemplate,
     resetResume,
   };

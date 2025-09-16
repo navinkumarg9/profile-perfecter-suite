@@ -6,6 +6,10 @@ import { WorkExperienceForm } from "@/components/forms/WorkExperienceForm";
 import { EducationForm } from "@/components/forms/EducationForm";
 import { SkillsForm } from "@/components/forms/SkillsForm";
 import { ProjectsForm } from "@/components/forms/ProjectsForm";
+import { CertificationsForm } from "@/components/forms/CertificationsForm";
+import { LanguagesForm } from "@/components/forms/LanguagesForm";
+import { InterestsForm } from "@/components/forms/InterestsForm";
+import { CustomSectionsForm } from "@/components/forms/CustomSectionsForm";
 import { TemplateSelector } from "@/components/TemplateSelector";
 import { PDFExport } from "@/components/PDFExport";
 import { ResumePreview } from "@/components/resume/ResumePreview";
@@ -27,6 +31,10 @@ const Index = () => {
     updateEducation,
     updateSkills,
     updateProjects,
+    updateCertifications,
+    updateLanguages,
+    updateInterests,
+    updateCustomSections,
     updateTemplate,
     resetResume,
   } = useResumeData();
@@ -84,7 +92,42 @@ const Index = () => {
       title: "Projects Updated",
       description: "Your projects have been saved successfully.",
     });
-    setActiveTab("template");
+    setActiveTab("certifications");
+  };
+
+  const handleCertificationsSubmit = (data: any) => {
+    updateCertifications(data);
+    toast({
+      title: "Certifications Updated",
+      description: "Your certifications have been saved successfully.",
+    });
+    setActiveTab("languages");
+  };
+
+  const handleLanguagesSubmit = (data: any) => {
+    updateLanguages(data);
+    toast({
+      title: "Languages Updated",
+      description: "Your languages have been saved successfully.",
+    });
+    setActiveTab("interests");
+  };
+
+  const handleInterestsSubmit = (data: any) => {
+    updateInterests(data);
+    toast({
+      title: "Interests Updated",
+      description: "Your interests have been saved successfully.",
+    });
+    setActiveTab("custom");
+  };
+
+  const handleCustomSectionsSubmit = (data: any) => {
+    updateCustomSections(data);
+    toast({
+      title: "Custom Sections Updated",
+      description: "Your custom sections have been saved successfully.",
+    });
   };
 
   const handleTemplateSelect = (template: any) => {
@@ -97,13 +140,17 @@ const Index = () => {
 
   const completionPercentage = (() => {
     let completed = 0;
-    const total = 5;
+    const total = 9;
     
     if (resume.personalInfo.fullName && resume.personalInfo.email) completed++;
     if (resume.workExperience.length > 0) completed++;
     if (resume.education.length > 0) completed++;
     if (resume.skills.length > 0) completed++;
     if (resume.projects.length > 0) completed++;
+    if (resume.certifications.length > 0) completed++;
+    if (resume.languages.length > 0) completed++;
+    if (resume.interests.length > 0) completed++;
+    if (resume.customSections.length > 0) completed++;
     
     return Math.round((completed / total) * 100);
   })();
@@ -193,37 +240,53 @@ const Index = () => {
         ) : (
           // Edit Mode with Live Preview
           <div className="max-w-7xl mx-auto">
-            <Card className="mb-8 gradient-card shadow-elegant">
-              <CardHeader className="text-center">
-                <CardTitle className="flex items-center justify-center gap-2 text-2xl">
-                  <Sparkles className="h-6 w-6 text-primary" />
-                  Build Your Professional Resume
-                </CardTitle>
-                <p className="text-muted-foreground">
-                  Follow the steps below to create a stunning resume that stands out
-                </p>
-              </CardHeader>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Left Side - Resume Analysis and Forms */}
+              <div className="space-y-6">
+                {/* Resume Analysis Score - Top Left */}
+                <ResumeScore resume={resume} />
+                
+                {/* Edit Section - Below Analysis */}
+                <Card className="gradient-card shadow-elegant">
+                  <CardHeader className="text-center">
+                    <CardTitle className="flex items-center justify-center gap-2 text-xl">
+                      <Sparkles className="h-5 w-5 text-primary" />
+                      Build Your Professional Resume
+                    </CardTitle>
+                    <p className="text-muted-foreground text-sm">
+                      Follow the steps below to create a stunning resume
+                    </p>
+                  </CardHeader>
+                </Card>
 
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              {/* Left Side - Forms */}
-              <div className="xl:col-span-2 space-y-6">
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-                  <TabsList className="grid w-full grid-cols-5 h-12 bg-white shadow-card">
-                    <TabsTrigger value="personal" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                  <TabsList className="grid w-full grid-cols-4 lg:grid-cols-9 h-auto p-1 bg-white shadow-card">
+                    <TabsTrigger value="personal" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
                       Personal
                     </TabsTrigger>
-                    <TabsTrigger value="experience" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                    <TabsTrigger value="experience" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
                       Experience
                     </TabsTrigger>
-                    <TabsTrigger value="education" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                    <TabsTrigger value="education" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
                       Education
                     </TabsTrigger>
-                    <TabsTrigger value="skills" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                    <TabsTrigger value="skills" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
                       Skills
                     </TabsTrigger>
-                    <TabsTrigger value="projects" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-xs">
+                    <TabsTrigger value="projects" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
                       Projects
+                    </TabsTrigger>
+                    <TabsTrigger value="certifications" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
+                      Certificates
+                    </TabsTrigger>
+                    <TabsTrigger value="languages" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
+                      Languages
+                    </TabsTrigger>
+                    <TabsTrigger value="interests" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
+                      Interests
+                    </TabsTrigger>
+                    <TabsTrigger value="custom" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
+                      Custom
                     </TabsTrigger>
                   </TabsList>
 
@@ -261,13 +324,40 @@ const Index = () => {
                       onSubmit={handleProjectsSubmit}
                     />
                   </TabsContent>
+
+                  <TabsContent value="certifications">
+                    <CertificationsForm
+                      initialData={resume.certifications}
+                      onSubmit={handleCertificationsSubmit}
+                    />
+                  </TabsContent>
+
+                  <TabsContent value="languages">
+                    <LanguagesForm
+                      initialData={resume.languages}
+                      onSubmit={handleLanguagesSubmit}
+                    />
+                  </TabsContent>
+
+                  <TabsContent value="interests">
+                    <InterestsForm
+                      initialData={resume.interests}
+                      onSubmit={handleInterestsSubmit}
+                    />
+                  </TabsContent>
+
+                  <TabsContent value="custom">
+                    <CustomSectionsForm
+                      initialData={resume.customSections}
+                      onSubmit={handleCustomSectionsSubmit}
+                    />
+                  </TabsContent>
                 </Tabs>
               </div>
 
               {/* Right Side - Live Preview */}
-              <div className="xl:col-span-1 space-y-6">
-                <ResumeScore resume={resume} />
-                <Card className="shadow-elegant sticky top-24">
+              <div className="space-y-6">
+                <Card className="shadow-elegant sticky top-6">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Eye className="h-5 w-5 text-primary" />
@@ -277,8 +367,8 @@ const Index = () => {
                   <CardContent className="p-0">
                     <div 
                       ref={resumeRef} 
-                      className="w-full overflow-auto max-h-[600px]"
-                      style={{ transform: 'scale(0.7)', transformOrigin: 'top left', width: '142.86%' }}
+                      className="w-full overflow-auto max-h-[70vh]"
+                      style={{ transform: 'scale(0.8)', transformOrigin: 'top left', width: '125%' }}
                     >
                       <ResumePreview resume={resume} />
                     </div>
