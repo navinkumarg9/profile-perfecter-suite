@@ -15,7 +15,7 @@ export function ClassicTemplate({ resume }: ClassicTemplateProps) {
   };
 
   const getSkillsByCategory = (category: string) => {
-    return skills.filter(skill => skill.category === category);
+    return skills?.filter(skill => skill.category === category) || [];
   };
 
   return (
@@ -79,13 +79,13 @@ export function ClassicTemplate({ resume }: ClassicTemplateProps) {
         )}
 
         {/* Work Experience */}
-        {workExperience.length > 0 && (
+        {workExperience?.length > 0 && (
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
               PROFESSIONAL EXPERIENCE
             </h2>
             <div className="space-y-6">
-              {workExperience.map((exp) => (
+              {workExperience?.map((exp) => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-start mb-2">
                     <div>
@@ -110,13 +110,13 @@ export function ClassicTemplate({ resume }: ClassicTemplateProps) {
         )}
 
         {/* Education */}
-        {education.length > 0 && (
+        {education?.length > 0 && (
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
               EDUCATION
             </h2>
             <div className="space-y-4">
-              {education.map((edu) => (
+              {education?.map((edu) => (
                 <div key={edu.id}>
                   <div className="flex justify-between items-start">
                     <div>
@@ -135,7 +135,7 @@ export function ClassicTemplate({ resume }: ClassicTemplateProps) {
         )}
 
         {/* Skills */}
-        {skills.length > 0 && (
+        {skills?.length > 0 && (
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
               TECHNICAL SKILLS
@@ -163,13 +163,13 @@ export function ClassicTemplate({ resume }: ClassicTemplateProps) {
         )}
 
         {/* Projects */}
-        {projects.length > 0 && (
+        {projects?.length > 0 && (
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
               NOTABLE PROJECTS
             </h2>
             <div className="space-y-4">
-              {projects.map((project) => (
+              {projects?.map((project) => (
                 <div key={project.id}>
                   <div className="flex justify-between items-start mb-2">
                     <div>

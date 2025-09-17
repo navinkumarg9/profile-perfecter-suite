@@ -142,15 +142,15 @@ const Index = () => {
     let completed = 0;
     const total = 9;
     
-    if (resume.personalInfo.fullName && resume.personalInfo.email) completed++;
-    if (resume.workExperience.length > 0) completed++;
-    if (resume.education.length > 0) completed++;
-    if (resume.skills.length > 0) completed++;
-    if (resume.projects.length > 0) completed++;
-    if (resume.certifications.length > 0) completed++;
-    if (resume.languages.length > 0) completed++;
-    if (resume.interests.length > 0) completed++;
-    if (resume.customSections.length > 0) completed++;
+    if (resume.personalInfo?.fullName && resume.personalInfo?.email) completed++;
+    if (resume.workExperience?.length > 0) completed++;
+    if (resume.education?.length > 0) completed++;
+    if (resume.skills?.length > 0) completed++;
+    if (resume.projects?.length > 0) completed++;
+    if (resume.certifications?.length > 0) completed++;
+    if (resume.languages?.length > 0) completed++;
+    if (resume.interests?.length > 0) completed++;
+    if (resume.customSections?.length > 0) completed++;
     
     return Math.round((completed / total) * 100);
   })();

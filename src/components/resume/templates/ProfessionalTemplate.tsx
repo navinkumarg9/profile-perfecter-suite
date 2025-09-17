@@ -45,13 +45,13 @@ export function ProfessionalTemplate({ resume }: ProfessionalTemplateProps) {
       )}
 
       {/* Work Experience */}
-      {resume.workExperience.length > 0 && (
+      {resume.workExperience?.length > 0 && (
         <div className="mb-6">
           <h2 className="text-xl font-bold text-blue-600 mb-3 border-b border-gray-300 pb-1">
             PROFESSIONAL EXPERIENCE
           </h2>
           <div className="space-y-4">
-            {resume.workExperience.map((exp, index) => (
+            {resume.workExperience?.map((exp, index) => (
               <div key={index} className="border-l-3 border-blue-200 pl-4">
                 <div className="flex justify-between items-start mb-2">
                   <div>
@@ -77,13 +77,13 @@ export function ProfessionalTemplate({ resume }: ProfessionalTemplateProps) {
       )}
 
       {/* Education */}
-      {resume.education.length > 0 && (
+      {resume.education?.length > 0 && (
         <div className="mb-6">
           <h2 className="text-xl font-bold text-blue-600 mb-3 border-b border-gray-300 pb-1">
             EDUCATION
           </h2>
           <div className="space-y-3">
-            {resume.education.map((edu, index) => (
+            {resume.education?.map((edu, index) => (
               <div key={index} className="flex justify-between items-start">
                 <div>
                   <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
@@ -103,18 +103,18 @@ export function ProfessionalTemplate({ resume }: ProfessionalTemplateProps) {
       )}
 
       {/* Skills */}
-      {resume.skills.length > 0 && (
+      {resume.skills?.length > 0 && (
         <div className="mb-6">
           <h2 className="text-xl font-bold text-blue-600 mb-3 border-b border-gray-300 pb-1">
             CORE COMPETENCIES
           </h2>
           <div className="grid grid-cols-3 gap-4">
-            {Object.entries(resume.skills.reduce((acc, skill) => {
+            {Object.entries(resume.skills?.reduce((acc, skill) => {
               const category = skill.category || 'Other';
               if (!acc[category]) acc[category] = [];
               acc[category].push(skill);
               return acc;
-            }, {} as Record<string, typeof resume.skills>)).map(([category, skills]) => (
+            }, {} as Record<string, typeof resume.skills>) || {}).map(([category, skills]) => (
                 <div key={category}>
                   <h4 className="font-semibold text-gray-900 mb-2">{category}</h4>
                   <div className="space-y-1">
@@ -131,13 +131,13 @@ export function ProfessionalTemplate({ resume }: ProfessionalTemplateProps) {
       )}
 
       {/* Projects */}
-      {resume.projects.length > 0 && (
+      {resume.projects?.length > 0 && (
         <div className="mb-6">
           <h2 className="text-xl font-bold text-blue-600 mb-3 border-b border-gray-300 pb-1">
             KEY PROJECTS
           </h2>
           <div className="space-y-4">
-            {resume.projects.map((project, index) => (
+            {resume.projects?.map((project, index) => (
               <div key={index}>
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="font-semibold text-gray-900">{project.name}</h3>

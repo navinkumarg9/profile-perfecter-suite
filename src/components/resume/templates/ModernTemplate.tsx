@@ -15,7 +15,7 @@ export function ModernTemplate({ resume }: ModernTemplateProps) {
   };
 
   const getSkillsByCategory = (category: string) => {
-    return skills.filter(skill => skill.category === category);
+    return skills?.filter(skill => skill.category === category) || [];
   };
 
   const renderStars = (level: number) => {
@@ -83,13 +83,13 @@ export function ModernTemplate({ resume }: ModernTemplateProps) {
 
       <div className="p-8 space-y-8">
         {/* Work Experience */}
-        {workExperience.length > 0 && (
+        {workExperience?.length > 0 && (
           <section>
             <h2 className="text-2xl font-bold text-blue-700 mb-4 border-b-2 border-blue-700 pb-2">
               Work Experience
             </h2>
             <div className="space-y-6">
-              {workExperience.map((exp) => (
+              {workExperience?.map((exp) => (
                 <div key={exp.id} className="border-l-4 border-blue-200 pl-6">
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
                     <div>
@@ -116,13 +116,13 @@ export function ModernTemplate({ resume }: ModernTemplateProps) {
         )}
 
         {/* Education */}
-        {education.length > 0 && (
+        {education?.length > 0 && (
           <section>
             <h2 className="text-2xl font-bold text-blue-700 mb-4 border-b-2 border-blue-700 pb-2">
               Education
             </h2>
             <div className="space-y-4">
-              {education.map((edu) => (
+              {education?.map((edu) => (
                 <div key={edu.id} className="border-l-4 border-blue-200 pl-6">
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start">
                     <div>
@@ -143,7 +143,7 @@ export function ModernTemplate({ resume }: ModernTemplateProps) {
         )}
 
         {/* Skills */}
-        {skills.length > 0 && (
+        {skills?.length > 0 && (
           <section>
             <h2 className="text-2xl font-bold text-blue-700 mb-4 border-b-2 border-blue-700 pb-2">
               Skills
@@ -176,13 +176,13 @@ export function ModernTemplate({ resume }: ModernTemplateProps) {
         )}
 
         {/* Projects */}
-        {projects.length > 0 && (
+        {projects?.length > 0 && (
           <section>
             <h2 className="text-2xl font-bold text-blue-700 mb-4 border-b-2 border-blue-700 pb-2">
               Projects
             </h2>
             <div className="space-y-4">
-              {projects.map((project) => (
+              {projects?.map((project) => (
                 <div key={project.id} className="border-l-4 border-blue-200 pl-6">
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
                     <div>

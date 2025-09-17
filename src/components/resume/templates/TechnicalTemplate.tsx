@@ -57,18 +57,18 @@ export function TechnicalTemplate({ resume }: TechnicalTemplateProps) {
           </div>
 
           {/* Skills */}
-          {resume.skills.length > 0 && (
+          {resume.skills?.length > 0 && (
             <div className="border border-gray-300 p-4">
               <h2 className="text-lg font-bold mb-3 text-green-600">
                 // Skills
               </h2>
               <div className="space-y-3">
-                {Object.entries(resume.skills.reduce((acc, skill) => {
+                {Object.entries(resume.skills?.reduce((acc, skill) => {
                   const category = skill.category || 'General';
                   if (!acc[category]) acc[category] = [];
                   acc[category].push(skill);
                   return acc;
-                }, {} as Record<string, typeof resume.skills>)).map(([category, skills]) => (
+                }, {} as Record<string, typeof resume.skills>) || {}).map(([category, skills]) => (
                     <div key={category}>
                       <h4 className="text-purple-600 font-semibold text-sm mb-1">
                         {category.toLowerCase()}:
@@ -87,13 +87,13 @@ export function TechnicalTemplate({ resume }: TechnicalTemplateProps) {
           )}
 
           {/* Education */}
-          {resume.education.length > 0 && (
+          {resume.education?.length > 0 && (
             <div className="border border-gray-300 p-4">
               <h2 className="text-lg font-bold mb-3 text-green-600">
                 // Education
               </h2>
               <div className="space-y-3">
-                {resume.education.map((edu, index) => (
+                {resume.education?.map((edu, index) => (
                   <div key={index} className="text-sm">
                     <div className="text-purple-600 font-semibold">{edu.degree}</div>
                     <div className="text-xs">{edu.institution}</div>
@@ -124,13 +124,13 @@ export function TechnicalTemplate({ resume }: TechnicalTemplateProps) {
           )}
 
           {/* Experience */}
-          {resume.workExperience.length > 0 && (
+          {resume.workExperience?.length > 0 && (
             <div>
               <h2 className="text-lg font-bold mb-3 text-green-600">
                 // Experience
               </h2>
               <div className="space-y-4">
-                {resume.workExperience.map((exp, index) => (
+                {resume.workExperience?.map((exp, index) => (
                   <div key={index} className="border border-gray-200 p-4 bg-gray-50">
                     <div className="flex justify-between items-start mb-2">
                       <div>
@@ -157,13 +157,13 @@ export function TechnicalTemplate({ resume }: TechnicalTemplateProps) {
           )}
 
           {/* Projects */}
-          {resume.projects.length > 0 && (
+          {resume.projects?.length > 0 && (
             <div>
               <h2 className="text-lg font-bold mb-3 text-green-600">
                 // Projects
               </h2>
               <div className="space-y-4">
-                {resume.projects.map((project, index) => (
+                {resume.projects?.map((project, index) => (
                   <div key={index} className="border border-gray-200 p-4 bg-gray-50">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-bold text-purple-600">{project.name}</h3>

@@ -15,7 +15,7 @@ export function CreativeTemplate({ resume }: CreativeTemplateProps) {
   };
 
   const getSkillsByCategory = (category: string) => {
-    return skills.filter(skill => skill.category === category);
+    return skills?.filter(skill => skill.category === category) || [];
   };
 
   const renderSkillLevel = (level: number) => {
@@ -91,7 +91,7 @@ export function CreativeTemplate({ resume }: CreativeTemplateProps) {
           </div>
 
           {/* Skills */}
-          {skills.length > 0 && (
+          {skills?.length > 0 && (
             <div className="mb-8">
               <h2 className="text-lg font-bold mb-4 border-b border-white/30 pb-2">SKILLS</h2>
               <div className="space-y-6">
@@ -122,11 +122,11 @@ export function CreativeTemplate({ resume }: CreativeTemplateProps) {
           )}
 
           {/* Education */}
-          {education.length > 0 && (
+          {education?.length > 0 && (
             <div>
               <h2 className="text-lg font-bold mb-4 border-b border-white/30 pb-2">EDUCATION</h2>
               <div className="space-y-4">
-                {education.map((edu) => (
+                {education?.map((edu) => (
                   <div key={edu.id} className="text-sm">
                     <h3 className="font-semibold text-white">{edu.degree}</h3>
                     <p className="text-white/90">{edu.field}</p>
@@ -156,14 +156,14 @@ export function CreativeTemplate({ resume }: CreativeTemplateProps) {
           )}
 
           {/* Work Experience */}
-          {workExperience.length > 0 && (
+          {workExperience?.length > 0 && (
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-purple-700 mb-6 relative">
                 EXPERIENCE
                 <div className="absolute -bottom-1 left-0 w-16 h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
               </h2>
               <div className="space-y-6">
-                {workExperience.map((exp, index) => (
+                {workExperience?.map((exp, index) => (
                   <div key={exp.id} className="relative">
                     <div className="absolute left-0 top-2 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
                     <div className="ml-6 border-l-2 border-gray-200 pl-6 pb-6">
@@ -194,14 +194,14 @@ export function CreativeTemplate({ resume }: CreativeTemplateProps) {
           )}
 
           {/* Projects */}
-          {projects.length > 0 && (
+          {projects?.length > 0 && (
             <section>
               <h2 className="text-2xl font-bold text-purple-700 mb-6 relative">
                 PROJECTS
                 <div className="absolute -bottom-1 left-0 w-16 h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
               </h2>
               <div className="space-y-6">
-                {projects.map((project) => (
+                {projects?.map((project) => (
                   <div key={project.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
                     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-3">
                       <div>

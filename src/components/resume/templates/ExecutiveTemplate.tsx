@@ -14,7 +14,7 @@ export function ExecutiveTemplate({ resume }: ExecutiveTemplateProps) {
             {resume.personalInfo.fullName || "Your Name"}
           </h1>
           <div className="text-lg text-gray-300 mb-4">
-            {resume.workExperience.length > 0 && resume.workExperience[0].position}
+            {resume.workExperience?.length > 0 && resume.workExperience[0].position}
           </div>
           <div className="flex justify-center space-x-6 text-sm">
             {resume.personalInfo.email && (
@@ -44,13 +44,13 @@ export function ExecutiveTemplate({ resume }: ExecutiveTemplateProps) {
         )}
 
         {/* Professional Experience */}
-        {resume.workExperience.length > 0 && (
+        {resume.workExperience?.length > 0 && (
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b-2 border-gray-900 pb-2">
               PROFESSIONAL EXPERIENCE
             </h2>
             <div className="space-y-6">
-              {resume.workExperience.map((exp, index) => (
+              {resume.workExperience?.map((exp, index) => (
                 <div key={index} className="bg-gray-50 p-6 rounded-lg">
                   <div className="flex justify-between items-start mb-3">
                     <div>
@@ -81,13 +81,13 @@ export function ExecutiveTemplate({ resume }: ExecutiveTemplateProps) {
 
         <div className="grid grid-cols-2 gap-8">
           {/* Education */}
-          {resume.education.length > 0 && (
+          {resume.education?.length > 0 && (
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2">
                 EDUCATION
               </h2>
               <div className="space-y-4">
-                {resume.education.map((edu, index) => (
+                {resume.education?.map((edu, index) => (
                   <div key={index}>
                     <h3 className="font-bold text-gray-900">{edu.degree}</h3>
                     <p className="text-gray-700 font-semibold">{edu.institution}</p>
@@ -104,18 +104,18 @@ export function ExecutiveTemplate({ resume }: ExecutiveTemplateProps) {
           )}
 
           {/* Core Competencies */}
-          {resume.skills.length > 0 && (
+          {resume.skills?.length > 0 && (
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2">
                 CORE COMPETENCIES
               </h2>
               <div className="space-y-3">
-                {Object.entries(resume.skills.reduce((acc, skill) => {
+                {Object.entries(resume.skills?.reduce((acc, skill) => {
                   const category = skill.category || 'Leadership';
                   if (!acc[category]) acc[category] = [];
                   acc[category].push(skill);
                   return acc;
-                }, {} as Record<string, typeof resume.skills>)).map(([category, skills]) => (
+                }, {} as Record<string, typeof resume.skills>) || {}).map(([category, skills]) => (
                     <div key={category}>
                       <h4 className="font-semibold text-gray-900 mb-1">{category}</h4>
                       <div className="flex flex-wrap gap-2">
@@ -136,13 +136,13 @@ export function ExecutiveTemplate({ resume }: ExecutiveTemplateProps) {
         </div>
 
         {/* Key Achievements/Projects */}
-        {resume.projects.length > 0 && (
+        {resume.projects?.length > 0 && (
           <div className="mt-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b-2 border-gray-900 pb-2">
               KEY ACHIEVEMENTS
             </h2>
             <div className="grid grid-cols-1 gap-4">
-              {resume.projects.map((project, index) => (
+              {resume.projects?.map((project, index) => (
                 <div key={index} className="border-l-4 border-gray-900 pl-4">
                   <h3 className="font-bold text-gray-900 text-lg">{project.name}</h3>
                   {project.description && (

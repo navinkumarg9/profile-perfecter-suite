@@ -34,9 +34,23 @@ export const useResumeData = () => {
     const savedResume = localStorage.getItem('resume-data');
     if (savedResume) {
       try {
-        setResume(JSON.parse(savedResume));
+        const parsedResume = JSON.parse(savedResume);
+        // Ensure all arrays exist to prevent undefined errors
+        setResume({
+          ...defaultResume,
+          ...parsedResume,
+          workExperience: parsedResume.workExperience || [],
+          education: parsedResume.education || [],
+          skills: parsedResume.skills || [],
+          projects: parsedResume.projects || [],
+          certifications: parsedResume.certifications || [],
+          languages: parsedResume.languages || [],
+          interests: parsedResume.interests || [],
+          customSections: parsedResume.customSections || [],
+        });
       } catch (error) {
         console.error('Error parsing saved resume data:', error);
+        setResume(defaultResume);
       }
     }
     setIsLoading(false);

@@ -14,7 +14,7 @@ export function MinimalTemplate({ resume }: MinimalTemplateProps) {
   };
 
   const getSkillsByCategory = (category: string) => {
-    return skills.filter(skill => skill.category === category);
+    return skills?.filter(skill => skill.category === category) || [];
   };
 
   return (
@@ -47,13 +47,13 @@ export function MinimalTemplate({ resume }: MinimalTemplateProps) {
         )}
 
         {/* Work Experience */}
-        {workExperience.length > 0 && (
+        {workExperience?.length > 0 && (
           <section>
             <h2 className="text-xl font-light tracking-wider text-center mb-8 text-gray-800">
               EXPERIENCE
             </h2>
             <div className="space-y-8">
-              {workExperience.map((exp) => (
+              {workExperience?.map((exp) => (
                 <div key={exp.id} className="text-center">
                   <h3 className="text-lg font-medium">{exp.position}</h3>
                   <p className="text-gray-700 font-light">{exp.company} • {exp.location}</p>
@@ -74,13 +74,13 @@ export function MinimalTemplate({ resume }: MinimalTemplateProps) {
         )}
 
         {/* Education */}
-        {education.length > 0 && (
+        {education?.length > 0 && (
           <section>
             <h2 className="text-xl font-light tracking-wider text-center mb-8 text-gray-800">
               EDUCATION
             </h2>
             <div className="space-y-6">
-              {education.map((edu) => (
+              {education?.map((edu) => (
                 <div key={edu.id} className="text-center">
                   <h3 className="text-lg font-medium">{edu.degree} in {edu.field}</h3>
                   <p className="text-gray-700 font-light">{edu.institution} • {edu.location}</p>
@@ -95,7 +95,7 @@ export function MinimalTemplate({ resume }: MinimalTemplateProps) {
         )}
 
         {/* Skills */}
-        {skills.length > 0 && (
+        {skills?.length > 0 && (
           <section>
             <h2 className="text-xl font-light tracking-wider text-center mb-8 text-gray-800">
               SKILLS
@@ -121,13 +121,13 @@ export function MinimalTemplate({ resume }: MinimalTemplateProps) {
         )}
 
         {/* Projects */}
-        {projects.length > 0 && (
+        {projects?.length > 0 && (
           <section>
             <h2 className="text-xl font-light tracking-wider text-center mb-8 text-gray-800">
               PROJECTS
             </h2>
             <div className="space-y-8">
-              {projects.map((project) => (
+              {projects?.map((project) => (
                 <div key={project.id} className="text-center">
                   <h3 className="text-lg font-medium">{project.name}</h3>
                   <p className="text-sm text-gray-500 mb-2">
