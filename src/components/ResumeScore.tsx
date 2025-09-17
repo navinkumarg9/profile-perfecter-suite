@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, AlertCircle, XCircle, TrendingUp } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { CheckCircle, AlertCircle, XCircle, TrendingUp, ChevronDown, ChevronUp } from "lucide-react";
 import { Resume } from "@/types/resume";
 
 interface ResumeScoreProps {
@@ -17,6 +19,7 @@ interface ScoreItem {
 }
 
 export function ResumeScore({ resume }: ResumeScoreProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const calculateScore = (): { totalScore: number; maxScore: number; items: ScoreItem[] } => {
     const items: ScoreItem[] = [];
     
@@ -200,54 +203,74 @@ export function ResumeScore({ resume }: ResumeScoreProps) {
   };
   
   return (
-    <Card className="shadow-card">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-primary" />
-          Resume Score
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Overall Score */}
-        <div className="text-center space-y-3">
-          <div className="text-4xl font-bold text-primary">{percentage}%</div>
-          <Badge variant={overallStatus.status === 'excellent' ? 'default' : 'secondary'} className="text-sm">
-            {overallStatus.label}
-          </Badge>
-          <Progress value={percentage} className="h-3" />
-          <p className="text-sm text-muted-foreground">
-            {totalScore} out of {maxScore} points
-          </p>
-        </div>
-        
-        {/* Detailed Breakdown */}
-        <div className="space-y-4">
-          <h4 className="font-semibold text-sm">Detailed Breakdown</h4>
-          {items.map((item, index) => (
-            <div key={index} className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  {getStatusIcon(item.status)}
-                  <span className="text-sm font-medium">{item.label}</span>
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  {item.score}/{item.maxScore}
-                </span>
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <Card className="shadow-card">
+        <CollapsibleTrigger asChild>
+          <CardHeader className="cursor-pointer hover:bg-gray-50 transition-colors">
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                Resume Analysis
               </div>
-              <Progress value={(item.score / item.maxScore) * 100} className="h-2" />
-              {item.suggestions.length > 0 && (
-                <div className="ml-6 space-y-1">
-                  {item.suggestions.map((suggestion, suggestionIndex) => (
-                    <p key={suggestionIndex} className="text-xs text-muted-foreground">
-                      • {suggestion}
-                    </p>
-                  ))}
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                <div className="text-lg font-bold text-primary">{percentage}%</div>
+                {isOpen ? (
+                  <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                )}
+              </div>
+            </CardTitle>
+            <p className="text-sm text-muted-foreground text-left">
+              Your resume is approximately {percentage}% complete with {items.reduce((acc, item) => acc + item.suggestions.length, 0)} suggestions
+            </p>
+          </CardHeader>
+        </CollapsibleTrigger>
+        
+        <CollapsibleContent>
+          <CardContent className="space-y-6">
+            {/* Overall Score */}
+            <div className="text-center space-y-3">
+              <div className="text-4xl font-bold text-primary">{percentage}%</div>
+              <Badge variant={overallStatus.status === 'excellent' ? 'default' : 'secondary'} className="text-sm">
+                {overallStatus.label}
+              </Badge>
+              <Progress value={percentage} className="h-3" />
+              <p className="text-sm text-muted-foreground">
+                {totalScore} out of {maxScore} points
+              </p>
             </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+            
+            {/* Detailed Breakdown */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-sm">Detailed Breakdown</h4>
+              {items.map((item, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {getStatusIcon(item.status)}
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">
+                      {item.score}/{item.maxScore}
+                    </span>
+                  </div>
+                  <Progress value={(item.score / item.maxScore) * 100} className="h-2" />
+                  {item.suggestions.length > 0 && (
+                    <div className="ml-6 space-y-1">
+                      {item.suggestions.map((suggestion, suggestionIndex) => (
+                        <p key={suggestionIndex} className="text-xs text-muted-foreground">
+                          • {suggestion}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </CollapsibleContent>
+      </Card>
+    </Collapsible>
   );
 }

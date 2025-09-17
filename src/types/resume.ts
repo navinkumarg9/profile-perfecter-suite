@@ -87,7 +87,7 @@ export interface Resume {
   languages: Language[];
   interests: Interest[];
   customSections: CustomSection[];
-  template: 'modern' | 'classic' | 'creative' | 'minimal' | 'professional' | 'executive' | 'technical';
+  template: 'modern' | 'classic' | 'creative' | 'minimal' | 'professional' | 'executive' | 'technical' | 'elegant' | 'bold' | 'simple' | 'contemporary';
 }
 
 export interface ResumeTemplate {

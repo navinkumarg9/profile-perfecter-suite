@@ -2,22 +2,73 @@ import { useState, useEffect } from 'react';
 import { Resume, PersonalInfo, WorkExperience, Education, Skill, Project, Certification, Language, Interest, CustomSection } from '@/types/resume';
 
 const defaultPersonalInfo: PersonalInfo = {
-  fullName: '',
-  email: '',
-  phone: '',
-  location: '',
-  website: '',
-  linkedin: '',
-  github: '',
-  summary: '',
+  fullName: 'John Doe',
+  email: 'john.doe@example.com',
+  phone: '(123) 456-7890',
+  location: 'New York, NY',
+  website: 'johndoe.com',
+  linkedin: 'linkedin.com/in/johndoe',
+  github: 'github.com/johndoe',
+  summary: 'Experienced software engineer with a passion for building scalable web applications.',
 };
+
+const defaultWorkExperience: WorkExperience[] = [
+  {
+    id: '1',
+    company: 'Tech Solutions Inc.',
+    position: 'Senior Software Engineer',
+    location: 'New York, NY',
+    startDate: '2019',
+    endDate: 'Present',
+    current: true,
+    description: [
+      'Led development of web applications serving 100,000+ users',
+      'Improved application performance by 40% through optimization',
+      'Mentored junior developers and conducted code reviews'
+    ]
+  }
+];
+
+const defaultEducation: Education[] = [
+  {
+    id: '1',
+    institution: 'University of Technology',
+    degree: 'Bachelor of Science',
+    field: 'Computer Science',
+    location: 'New York, NY',
+    startDate: '2015',
+    endDate: '2019',
+    gpa: '3.8'
+  }
+];
+
+const defaultSkills: Skill[] = [
+  { id: '1', name: 'JavaScript', level: 5, category: 'technical' },
+  { id: '2', name: 'React', level: 4, category: 'technical' },
+  { id: '3', name: 'Node.js', level: 4, category: 'technical' },
+  { id: '4', name: 'Leadership', level: 4, category: 'soft' },
+  { id: '5', name: 'Communication', level: 5, category: 'soft' }
+];
+
+const defaultProjects: Project[] = [
+  {
+    id: '1',
+    name: 'E-commerce Platform',
+    description: 'Full-stack e-commerce application with payment integration',
+    technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+    url: 'https://github.com/johndoe/ecommerce',
+    github: 'https://github.com/johndoe/ecommerce',
+    startDate: '2023',
+    endDate: '2023'
+  }
+];
 
 const defaultResume: Resume = {
   personalInfo: defaultPersonalInfo,
-  workExperience: [],
-  education: [],
-  skills: [],
-  projects: [],
+  workExperience: defaultWorkExperience,
+  education: defaultEducation,
+  skills: defaultSkills,
+  projects: defaultProjects,
   certifications: [],
   languages: [],
   interests: [],

@@ -11,6 +11,7 @@ import { LanguagesForm } from "@/components/forms/LanguagesForm";
 import { InterestsForm } from "@/components/forms/InterestsForm";
 import { CustomSectionsForm } from "@/components/forms/CustomSectionsForm";
 import { TemplateSelector } from "@/components/TemplateSelector";
+import { TemplateSelectionModal } from "@/components/TemplateSelectionModal";
 import { PDFExport } from "@/components/PDFExport";
 import { ResumePreview } from "@/components/resume/ResumePreview";
 import { useResumeData } from "@/hooks/useResumeData";
@@ -187,6 +188,10 @@ const Index = () => {
               </div>
               
               <div className="flex gap-2">
+                <TemplateSelectionModal
+                  selectedTemplate={resume.template}
+                  onSelectTemplate={handleTemplateSelect}
+                />
                 <button
                   onClick={() => setShowPreview(!showPreview)}
                   className="flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-lg hover:bg-secondary transition-colors"
@@ -376,10 +381,6 @@ const Index = () => {
                 </Card>
                 
                 <div className="space-y-4">
-                  <TemplateSelector
-                    selectedTemplate={resume.template}
-                    onSelectTemplate={handleTemplateSelect}
-                  />
                   <PDFExport
                     resumeRef={resumeRef}
                     fileName={resume.personalInfo.fullName ? 
