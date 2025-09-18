@@ -12,7 +12,7 @@ import { InterestsForm } from "@/components/forms/InterestsForm";
 import { CustomSectionsForm } from "@/components/forms/CustomSectionsForm";
 import { TemplateSelector } from "@/components/TemplateSelector";
 import { TemplateSelectionModal } from "@/components/TemplateSelectionModal";
-import { PDFExport } from "@/components/PDFExport";
+
 import { ResumePreview } from "@/components/resume/ResumePreview";
 import { useResumeData } from "@/hooks/useResumeData";
 import { Chatbot } from "@/components/Chatbot";
