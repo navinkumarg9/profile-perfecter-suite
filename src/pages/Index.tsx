@@ -15,10 +15,10 @@ import { TemplateSelectionModal } from "@/components/TemplateSelectionModal";
 import { PDFExport } from "@/components/PDFExport";
 import { ResumePreview } from "@/components/resume/ResumePreview";
 import { useResumeData } from "@/hooks/useResumeData";
-import { toast } from "@/hooks/use-toast";
 import { Chatbot } from "@/components/Chatbot";
 import { ResumeScore } from "@/components/ResumeScore";
 import { FileText, Eye, Edit, Sparkles } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("personal");
@@ -188,16 +188,56 @@ const Index = () => {
               </div>
               
               <div className="flex gap-2">
-                <TemplateSelectionModal
-                  selectedTemplate={resume.template}
-                  onSelectTemplate={handleTemplateSelect}
-                />
                 <button
-                  onClick={() => setShowPreview(!showPreview)}
                   className="flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-lg hover:bg-secondary transition-colors"
                 >
-                  {showPreview ? <Edit className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  {showPreview ? 'Edit' : 'Preview'}
+                  <FileText className="h-4 w-4" />
+                  Save
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!resumeRef.current) return;
+                    
+                    const html2canvas = (await import("html2canvas")).default;
+                    const jsPDF = (await import("jspdf")).default;
+                    
+                    try {
+                      const canvas = await html2canvas(resumeRef.current, {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: '#ffffff',
+                      });
+
+                      const imgData = canvas.toDataURL('image/png');
+                      const imgWidth = 210;
+                      const pageHeight = 297;
+                      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                      
+                      const pdf = new jsPDF('p', 'mm', 'a4');
+                      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                      
+                      const fileName = resume.personalInfo.fullName ? 
+                        resume.personalInfo.fullName.replace(/\s+/g, '_').toLowerCase() + '_resume' : 
+                        'resume';
+                      pdf.save(`${fileName}.pdf`);
+                      
+                      toast({
+                        title: "PDF Downloaded",
+                        description: "Your resume has been downloaded successfully.",
+                      });
+                    } catch (error) {
+                      toast({
+                        title: "Export Failed",
+                        description: "There was an error downloading your resume.",
+                        variant: "destructive",
+                      });
+                    }
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+                >
+                  <Eye className="h-4 w-4" />
+                  Download PDF
                 </button>
               </div>
             </div>
@@ -215,13 +255,6 @@ const Index = () => {
                 <TemplateSelector
                   selectedTemplate={resume.template}
                   onSelectTemplate={handleTemplateSelect}
-                />
-                <PDFExport
-                  resumeRef={resumeRef}
-                  fileName={resume.personalInfo.fullName ? 
-                    resume.personalInfo.fullName.replace(/\s+/g, '_').toLowerCase() + '_resume' : 
-                    'resume'
-                  }
                 />
               </div>
               
@@ -363,11 +396,32 @@ const Index = () => {
               {/* Right Side - Live Preview */}
               <div className="space-y-6">
                 <Card className="shadow-elegant sticky top-6">
-                  <CardHeader>
+                  <CardHeader className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <Eye className="h-5 w-5 text-primary" />
                       Live Preview
                     </CardTitle>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">{resume.template}</span>
+                      <div className="flex items-center gap-1">
+                        <button className="p-1 hover:bg-secondary rounded">
+                          <Eye className="h-4 w-4" />
+                        </button>
+                        <span className="text-sm">100%</span>
+                        <button className="p-1 hover:bg-secondary rounded">
+                          <Eye className="h-4 w-4" />
+                        </button>
+                        <button className="p-1 hover:bg-secondary rounded ml-2">
+                          <FileText className="h-4 w-4" />
+                        </button>
+                        <button className="p-1 hover:bg-secondary rounded">
+                          <Eye className="h-4 w-4" />
+                        </button>
+                        <button className="p-1 hover:bg-secondary rounded">
+                          <Eye className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardContent className="p-0">
                     <div 
@@ -379,16 +433,6 @@ const Index = () => {
                     </div>
                   </CardContent>
                 </Card>
-                
-                <div className="space-y-4">
-                  <PDFExport
-                    resumeRef={resumeRef}
-                    fileName={resume.personalInfo.fullName ? 
-                      resume.personalInfo.fullName.replace(/\s+/g, '_').toLowerCase() + '_resume' : 
-                      'resume'
-                    }
-                  />
-                </div>
               </div>
             </div>
           </div>
