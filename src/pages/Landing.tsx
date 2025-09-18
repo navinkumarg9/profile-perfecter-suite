@@ -24,8 +24,8 @@ const Landing = () => {
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
                 Features
               </a>
-              <Button variant="outline" className="mr-2">
-                Sign In
+              <Button asChild variant="outline" className="mr-2">
+                <Link to="/login">Sign In</Link>
               </Button>
               <Button asChild>
                 <Link to="/editor">Get Started</Link>

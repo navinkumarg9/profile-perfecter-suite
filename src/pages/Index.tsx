@@ -17,12 +17,13 @@ import { ResumePreview } from "@/components/resume/ResumePreview";
 import { useResumeData } from "@/hooks/useResumeData";
 import { Chatbot } from "@/components/Chatbot";
 import { ResumeScore } from "@/components/ResumeScore";
-import { FileText, Eye, Edit, Sparkles } from "lucide-react";
+import { FileText, Eye, Sparkles, Download, ZoomIn, ZoomOut, Printer, Maximize2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("personal");
   const [showPreview, setShowPreview] = useState(false);
+  const [zoom, setZoom] = useState(0.75);
   const resumeRef = useRef<HTMLDivElement>(null);
   const {
     resume,
@@ -399,37 +400,91 @@ const Index = () => {
                   <CardHeader className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <Eye className="h-5 w-5 text-primary" />
-                      Live Preview
+                      Resume Preview
                     </CardTitle>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">{resume.template}</span>
-                      <div className="flex items-center gap-1">
-                        <button className="p-1 hover:bg-secondary rounded">
-                          <Eye className="h-4 w-4" />
-                        </button>
-                        <span className="text-sm">100%</span>
-                        <button className="p-1 hover:bg-secondary rounded">
-                          <Eye className="h-4 w-4" />
-                        </button>
-                        <button className="p-1 hover:bg-secondary rounded ml-2">
-                          <FileText className="h-4 w-4" />
-                        </button>
-                        <button className="p-1 hover:bg-secondary rounded">
-                          <Eye className="h-4 w-4" />
-                        </button>
-                        <button className="p-1 hover:bg-secondary rounded">
-                          <Eye className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-0">
-                    <div 
-                      ref={resumeRef} 
-                      className="w-full overflow-auto max-h-[70vh]"
-                      style={{ transform: 'scale(0.8)', transformOrigin: 'top left', width: '125%' }}
+                    <button
+                      onClick={() => setShowPreview(true)}
+                      className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-2"
                     >
-                      <ResumePreview resume={resume} />
+                      <Eye className="h-4 w-4" /> Full Preview
+                    </button>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="rounded-2xl border border-border bg-white/60 p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="text-3xl font-bold leading-none">
+                          <div>Live</div>
+                          <div>Preview</div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="px-3 py-1 rounded-full border text-sm capitalize bg-white">
+                            {resume.template}
+                          </span>
+                          <button
+                            onClick={() => setZoom(Math.max(0.5, zoom - 0.1))}
+                            className="p-2 rounded hover:bg-secondary"
+                            aria-label="Zoom out"
+                          >
+                            <ZoomOut className="h-4 w-4" />
+                          </button>
+                          <span className="text-sm w-12 text-center">{Math.round(zoom * 100)}%</span>
+                          <button
+                            onClick={() => setZoom(Math.min(1.5, zoom + 0.1))}
+                            className="p-2 rounded hover:bg-secondary"
+                            aria-label="Zoom in"
+                          >
+                            <ZoomIn className="h-4 w-4" />
+                          </button>
+                          <button onClick={() => window.print()} className="p-2 rounded hover:bg-secondary" aria-label="Print">
+                            <Printer className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={async () => {
+                              if (!resumeRef.current) return;
+                              const html2canvas = (await import("html2canvas")).default;
+                              const jsPDF = (await import("jspdf")).default;
+                              try {
+                                const canvas = await html2canvas(resumeRef.current, {
+                                  scale: 2,
+                                  useCORS: true,
+                                  allowTaint: true,
+                                  backgroundColor: '#ffffff',
+                                });
+                                const imgData = canvas.toDataURL('image/png');
+                                const imgWidth = 210;
+                                const pageHeight = 297;
+                                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                                const pdf = new (jsPDF as any)('p', 'mm', 'a4');
+                                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                                const fileName = resume.personalInfo.fullName ?
+                                  resume.personalInfo.fullName.replace(/\s+/g, '_').toLowerCase() + '_resume' :
+                                  'resume';
+                                pdf.save(`${fileName}.pdf`);
+                                toast({ title: 'PDF Downloaded', description: 'Your resume has been downloaded successfully.' });
+                              } catch (error) {
+                                toast({ title: 'Export Failed', description: 'There was an error downloading your resume.', variant: 'destructive' });
+                              }
+                            }}
+                            className="p-2 rounded hover:bg-secondary"
+                            aria-label="Download PDF"
+                          >
+                            <Download className="h-4 w-4" />
+                          </button>
+                          <button className="p-2 rounded hover:bg-secondary" aria-label="Expand">
+                            <Maximize2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="overflow-auto rounded-xl border bg-background" style={{ maxHeight: '60vh' }}>
+                        <div
+                          ref={resumeRef}
+                          className="mx-auto my-4"
+                          style={{ width: '794px', transform: `scale(${zoom})`, transformOrigin: 'top center' }}
+                        >
+                          <ResumePreview resume={resume} />
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
