@@ -17,7 +17,7 @@ import { ResumePreview } from "@/components/resume/ResumePreview";
 import { useResumeData } from "@/hooks/useResumeData";
 import { Chatbot } from "@/components/Chatbot";
 import { ResumeScore } from "@/components/ResumeScore";
-import { FileText, Eye, Sparkles, Download, ZoomIn, ZoomOut, Printer, Maximize2 } from "lucide-react";
+import { FileText, Eye, Sparkles, Download, ZoomIn, ZoomOut, Printer, Maximize2, Palette } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
@@ -195,6 +195,16 @@ const Index = () => {
                   <FileText className="h-4 w-4" />
                   Save
                 </button>
+                <TemplateSelectionModal
+                  selectedTemplate={resume.template}
+                  onSelectTemplate={handleTemplateSelect}
+                  trigger={
+                    <button className="flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-lg hover:bg-secondary transition-colors">
+                      <Palette className="h-4 w-4" />
+                      Change Template
+                    </button>
+                  }
+                />
                 <button
                   onClick={async () => {
                     if (!resumeRef.current) return;
@@ -237,7 +247,7 @@ const Index = () => {
                   }}
                   className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
                 >
-                  <Eye className="h-4 w-4" />
+                  <Download className="h-4 w-4" />
                   Download PDF
                 </button>
               </div>
