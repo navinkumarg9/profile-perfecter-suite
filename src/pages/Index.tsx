@@ -24,6 +24,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState("personal");
   const [showPreview, setShowPreview] = useState(false);
   const [zoom, setZoom] = useState(0.75);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const resumeRef = useRef<HTMLDivElement>(null);
   const {
     resume,
@@ -54,95 +55,47 @@ const Index = () => {
 
   const handlePersonalInfoSubmit = (data: any) => {
     updatePersonalInfo(data);
-    toast({
-      title: "Personal Information Updated",
-      description: "Your personal information has been saved successfully.",
-    });
-    setActiveTab("experience");
   };
 
   const handleWorkExperienceSubmit = (data: any) => {
     updateWorkExperience(data);
-    toast({
-      title: "Work Experience Updated",
-      description: "Your work experience has been saved successfully.",
-    });
-    setActiveTab("education");
   };
 
   const handleEducationSubmit = (data: any) => {
     updateEducation(data);
-    toast({
-      title: "Education Updated",
-      description: "Your education information has been saved successfully.",
-    });
-    setActiveTab("skills");
   };
 
   const handleSkillsSubmit = (data: any) => {
     updateSkills(data);
-    toast({
-      title: "Skills Updated",
-      description: "Your skills have been saved successfully.",
-    });
-    setActiveTab("projects");
   };
 
   const handleProjectsSubmit = (data: any) => {
     updateProjects(data);
-    toast({
-      title: "Projects Updated",
-      description: "Your projects have been saved successfully.",
-    });
-    setActiveTab("certifications");
   };
 
   const handleCertificationsSubmit = (data: any) => {
     updateCertifications(data);
-    toast({
-      title: "Certifications Updated",
-      description: "Your certifications have been saved successfully.",
-    });
-    setActiveTab("languages");
   };
 
   const handleLanguagesSubmit = (data: any) => {
     updateLanguages(data);
-    toast({
-      title: "Languages Updated",
-      description: "Your languages have been saved successfully.",
-    });
-    setActiveTab("interests");
   };
 
   const handleInterestsSubmit = (data: any) => {
     updateInterests(data);
-    toast({
-      title: "Interests Updated",
-      description: "Your interests have been saved successfully.",
-    });
-    setActiveTab("custom");
   };
 
   const handleCustomSectionsSubmit = (data: any) => {
     updateCustomSections(data);
-    toast({
-      title: "Custom Sections Updated",
-      description: "Your custom sections have been saved successfully.",
-    });
   };
 
-  const handleTemplateSelect = (template: any) => {
-    updateTemplate(template);
-    toast({
-      title: "Template Updated",
-      description: `Switched to ${template} template successfully.`,
-    });
+  const handleTemplateSelect = (template: string) => {
+    updateTemplate(template as any);
   };
 
   const completionPercentage = (() => {
     let completed = 0;
-    const total = 9;
+    const total = 8;
     
     if (resume.personalInfo?.fullName && resume.personalInfo?.email) completed++;
     if (resume.workExperience?.length > 0) completed++;
@@ -257,85 +210,44 @@ const Index = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {showPreview ? (
-          // Preview Mode
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              <div className="lg:col-span-1 space-y-6">
-                <ResumeScore resume={resume} />
-                <TemplateSelector
-                  selectedTemplate={resume.template}
-                  onSelectTemplate={handleTemplateSelect}
-                />
+        {/* Main Content - Split Layout matching reference image */}
+        <div className="max-w-full mx-auto h-[calc(100vh-140px)]">
+          <div className="grid grid-cols-2 gap-6 h-full">
+            {/* Left Side - Forms */}
+            <div className="bg-white rounded-lg border overflow-auto">
+              {/* Resume Analysis */}
+              <div className="p-4 bg-yellow-50 border-b border-yellow-200">
+                <div className="flex items-start gap-3">
+                  <Sparkles className="h-5 w-5 text-yellow-600 mt-0.5" />
+                  <div className="flex-1">
+                    <h3 className="font-medium text-yellow-800 mb-1">Resume Analysis</h3>
+                    <p className="text-sm text-yellow-700">Your resume is approximately 45% complete with 2 suggestions</p>
+                  </div>
+                  <button className="text-yellow-600 hover:text-yellow-700">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
               </div>
-              
-              <div className="lg:col-span-3">
-                <Card className="shadow-elegant">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Eye className="h-5 w-5 text-primary" />
-                      Resume Preview
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-0">
-                    <div ref={resumeRef} className="w-full overflow-auto">
-                      <ResumePreview resume={resume} />
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        ) : (
-          // Edit Mode with Live Preview
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Left Side - Resume Analysis and Forms */}
-              <div className="space-y-6">
-                {/* Resume Analysis Score - Top Left */}
-                <ResumeScore resume={resume} />
-                
-                {/* Edit Section - Below Analysis */}
-                <Card className="gradient-card shadow-elegant">
-                  <CardHeader className="text-center">
-                    <CardTitle className="flex items-center justify-center gap-2 text-xl">
-                      <Sparkles className="h-5 w-5 text-primary" />
-                      Build Your Professional Resume
-                    </CardTitle>
-                    <p className="text-muted-foreground text-sm">
-                      Follow the steps below to create a stunning resume
-                    </p>
-                  </CardHeader>
-                </Card>
 
+              <div className="p-6">
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-                  <TabsList className="grid w-full grid-cols-4 lg:grid-cols-9 h-auto p-1 bg-white shadow-card">
-                    <TabsTrigger value="personal" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
+                  <TabsList className="grid w-full grid-cols-5 h-auto p-1 bg-gray-100">
+                    <TabsTrigger value="personal" className="data-[state=active]:bg-white text-sm px-3 py-2">
                       Personal
                     </TabsTrigger>
-                    <TabsTrigger value="experience" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
-                      Experience
-                    </TabsTrigger>
-                    <TabsTrigger value="education" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
+                    <TabsTrigger value="education" className="data-[state=active]:bg-white text-sm px-3 py-2">
                       Education
                     </TabsTrigger>
-                    <TabsTrigger value="skills" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
-                      Skills
+                    <TabsTrigger value="experience" className="data-[state=active]:bg-white text-sm px-3 py-2">
+                      Experience
                     </TabsTrigger>
-                    <TabsTrigger value="projects" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
+                    <TabsTrigger value="projects" className="data-[state=active]:bg-white text-sm px-3 py-2">
                       Projects
                     </TabsTrigger>
-                    <TabsTrigger value="certifications" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
-                      Certificates
-                    </TabsTrigger>
-                    <TabsTrigger value="languages" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
-                      Languages
-                    </TabsTrigger>
-                    <TabsTrigger value="interests" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
-                      Interests
-                    </TabsTrigger>
-                    <TabsTrigger value="custom" className="data-[state=active]:gradient-primary data-[state=active]:text-white text-[10px] px-1 py-2">
-                      Custom
+                    <TabsTrigger value="more" className="data-[state=active]:bg-white text-sm px-3 py-2">
+                      More
                     </TabsTrigger>
                   </TabsList>
 
@@ -346,13 +258,6 @@ const Index = () => {
                     />
                   </TabsContent>
 
-                  <TabsContent value="experience">
-                    <WorkExperienceForm
-                      initialData={resume.workExperience}
-                      onSubmit={handleWorkExperienceSubmit}
-                    />
-                  </TabsContent>
-
                   <TabsContent value="education">
                     <EducationForm
                       initialData={resume.education}
@@ -360,10 +265,10 @@ const Index = () => {
                     />
                   </TabsContent>
 
-                  <TabsContent value="skills">
-                    <SkillsForm
-                      initialData={resume.skills}
-                      onSubmit={handleSkillsSubmit}
+                  <TabsContent value="experience">
+                    <WorkExperienceForm
+                      initialData={resume.workExperience}
+                      onSubmit={handleWorkExperienceSubmit}
                     />
                   </TabsContent>
 
@@ -374,134 +279,128 @@ const Index = () => {
                     />
                   </TabsContent>
 
-                  <TabsContent value="certifications">
-                    <CertificationsForm
-                      initialData={resume.certifications}
-                      onSubmit={handleCertificationsSubmit}
-                    />
-                  </TabsContent>
-
-                  <TabsContent value="languages">
-                    <LanguagesForm
-                      initialData={resume.languages}
-                      onSubmit={handleLanguagesSubmit}
-                    />
-                  </TabsContent>
-
-                  <TabsContent value="interests">
-                    <InterestsForm
-                      initialData={resume.interests}
-                      onSubmit={handleInterestsSubmit}
-                    />
-                  </TabsContent>
-
-                  <TabsContent value="custom">
-                    <CustomSectionsForm
-                      initialData={resume.customSections}
-                      onSubmit={handleCustomSectionsSubmit}
-                    />
+                  <TabsContent value="more">
+                    <div className="space-y-6">
+                      <SkillsForm
+                        initialData={resume.skills}
+                        onSubmit={handleSkillsSubmit}
+                      />
+                      <CertificationsForm
+                        initialData={resume.certifications}
+                        onSubmit={handleCertificationsSubmit}
+                      />
+                      <LanguagesForm
+                        initialData={resume.languages}
+                        onSubmit={handleLanguagesSubmit}
+                      />
+                      <InterestsForm
+                        initialData={resume.interests}
+                        onSubmit={handleInterestsSubmit}
+                      />
+                      <CustomSectionsForm
+                        initialData={resume.customSections}
+                        onSubmit={handleCustomSectionsSubmit}
+                      />
+                    </div>
                   </TabsContent>
                 </Tabs>
               </div>
+            </div>
 
-              {/* Right Side - Live Preview */}
-              <div className="space-y-6">
-                <Card className="shadow-elegant sticky top-6">
-                  <CardHeader className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-2">
-                      <Eye className="h-5 w-5 text-primary" />
-                      Resume Preview
-                    </CardTitle>
-                    <button
-                      onClick={() => setShowPreview(true)}
-                      className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-2"
-                    >
-                      <Eye className="h-4 w-4" /> Full Preview
-                    </button>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <div className="rounded-2xl border border-border bg-white/60 p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="text-3xl font-bold leading-none">
-                          <div>Live</div>
-                          <div>Preview</div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="px-3 py-1 rounded-full border text-sm capitalize bg-white">
-                            {resume.template}
-                          </span>
-                          <button
-                            onClick={() => setZoom(Math.max(0.5, zoom - 0.1))}
-                            className="p-2 rounded hover:bg-secondary"
-                            aria-label="Zoom out"
-                          >
-                            <ZoomOut className="h-4 w-4" />
-                          </button>
-                          <span className="text-sm w-12 text-center">{Math.round(zoom * 100)}%</span>
-                          <button
-                            onClick={() => setZoom(Math.min(1.5, zoom + 0.1))}
-                            className="p-2 rounded hover:bg-secondary"
-                            aria-label="Zoom in"
-                          >
-                            <ZoomIn className="h-4 w-4" />
-                          </button>
-                          <button onClick={() => window.print()} className="p-2 rounded hover:bg-secondary" aria-label="Print">
-                            <Printer className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={async () => {
-                              if (!resumeRef.current) return;
-                              const html2canvas = (await import("html2canvas")).default;
-                              const jsPDF = (await import("jspdf")).default;
-                              try {
-                                const canvas = await html2canvas(resumeRef.current, {
-                                  scale: 2,
-                                  useCORS: true,
-                                  allowTaint: true,
-                                  backgroundColor: '#ffffff',
-                                });
-                                const imgData = canvas.toDataURL('image/png');
-                                const imgWidth = 210;
-                                const pageHeight = 297;
-                                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                                const pdf = new (jsPDF as any)('p', 'mm', 'a4');
-                                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                                const fileName = resume.personalInfo.fullName ?
-                                  resume.personalInfo.fullName.replace(/\s+/g, '_').toLowerCase() + '_resume' :
-                                  'resume';
-                                pdf.save(`${fileName}.pdf`);
-                                toast({ title: 'PDF Downloaded', description: 'Your resume has been downloaded successfully.' });
-                              } catch (error) {
-                                toast({ title: 'Export Failed', description: 'There was an error downloading your resume.', variant: 'destructive' });
-                              }
-                            }}
-                            className="p-2 rounded hover:bg-secondary"
-                            aria-label="Download PDF"
-                          >
-                            <Download className="h-4 w-4" />
-                          </button>
-                          <button className="p-2 rounded hover:bg-secondary" aria-label="Expand">
-                            <Maximize2 className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </div>
+            {/* Right Side - Resume Preview */}
+            <div className="bg-white rounded-lg border flex flex-col">
+              {/* Preview Header */}
+              <div className="flex items-center justify-between p-4 border-b bg-gray-50">
+                <h2 className="text-lg font-semibold">Resume Preview</h2>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsFullscreen(true)}
+                    className="flex items-center gap-2 px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <Eye className="h-4 w-4" />
+                    Full Preview
+                  </button>
+                  <TemplateSelectionModal
+                    selectedTemplate={resume.template}
+                    onSelectTemplate={handleTemplateSelect}
+                    trigger={
+                      <button className="flex items-center gap-2 px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        <Palette className="h-4 w-4" />
+                        Change Template
+                      </button>
+                    }
+                  />
+                  <button
+                    onClick={async () => {
+                      if (!resumeRef.current) return;
+                      
+                      try {
+                        const html2canvas = (await import("html2canvas")).default;
+                        const jsPDF = (await import("jspdf")).default;
+                        
+                        const canvas = await html2canvas(resumeRef.current, {
+                          scale: 2,
+                          useCORS: true,
+                          allowTaint: true,
+                          backgroundColor: '#ffffff',
+                          logging: false,
+                        });
+                        
+                        const pdf = new jsPDF({
+                          orientation: 'portrait',
+                          unit: 'px',
+                          format: [595, 842]
+                        });
+                        
+                        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                        pdf.addImage(imgData, 'JPEG', 0, 0, 595, 842);
+                        pdf.save(`${resume.personalInfo.fullName.replace(/\s+/g, '_')}_Resume.pdf`);
+                        
+                        toast({
+                          title: "Success!",
+                          description: "Resume downloaded successfully.",
+                        });
+                      } catch (error) {
+                        console.error('Error generating PDF:', error);
+                        toast({
+                          title: "Error",
+                          description: "Failed to generate PDF. Please try again.",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Download className="h-4 w-4" />
+                    Download PDF
+                  </button>
+                </div>
+              </div>
 
-                      <div className="overflow-auto rounded-xl border bg-background" style={{ maxHeight: '60vh' }}>
-                        <div
-                          ref={resumeRef}
-                          className="mx-auto my-4"
-                          style={{ width: '794px', transform: `scale(${zoom})`, transformOrigin: 'top center' }}
-                        >
-                          <ResumePreview resume={resume} />
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              {/* Preview Content */}
+              <div className="flex-1 p-4 overflow-auto bg-gray-50">
+                <div 
+                  className="mx-auto bg-white shadow-lg"
+                  style={{ 
+                    width: '100%',
+                    maxWidth: '794px',
+                    transform: 'scale(0.75)',
+                    transformOrigin: 'top center'
+                  }}
+                >
+                  <div 
+                    ref={resumeRef} 
+                    data-resume-content
+                    className="w-full"
+                    style={{ width: '794px', minHeight: '1123px' }}
+                  >
+                    <ResumePreview resume={resume} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
       
       {/* Chatbot */}

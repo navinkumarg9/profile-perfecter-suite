@@ -22,9 +22,10 @@ const defaultWorkExperience: WorkExperience[] = [
     endDate: 'Present',
     current: true,
     description: [
-      'Led development of web applications serving 100,000+ users',
-      'Improved application performance by 40% through optimization',
-      'Mentored junior developers and conducted code reviews'
+      'Developed and maintained web applications using React and Node.js.',
+      'Improved application performance by 40%',
+      'Led a team of 5 developers',
+      'Implemented CI/CD pipeline'
     ]
   }
 ];
@@ -33,34 +34,51 @@ const defaultEducation: Education[] = [
   {
     id: '1',
     institution: 'University of Technology',
-    degree: 'Bachelor of Science',
+    degree: 'Bachelor of Science in Computer Science',
     field: 'Computer Science',
-    location: 'New York, NY',
+    location: 'Boston, MA',
     startDate: '2015',
     endDate: '2019',
-    gpa: '3.8'
+    gpa: '3.8/4.0'
   }
 ];
 
 const defaultSkills: Skill[] = [
   { id: '1', name: 'JavaScript', level: 5, category: 'technical' },
   { id: '2', name: 'React', level: 4, category: 'technical' },
-  { id: '3', name: 'Node.js', level: 4, category: 'technical' },
-  { id: '4', name: 'Leadership', level: 4, category: 'soft' },
-  { id: '5', name: 'Communication', level: 5, category: 'soft' }
+  { id: '3', name: 'Node.js', level: 4, category: 'technical' }
 ];
 
 const defaultProjects: Project[] = [
   {
     id: '1',
     name: 'E-commerce Platform',
-    description: 'Full-stack e-commerce application with payment integration',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-    url: 'https://github.com/johndoe/ecommerce',
-    github: 'https://github.com/johndoe/ecommerce',
-    startDate: '2023',
-    endDate: '2023'
+    description: 'Built a full-stack e-commerce platform with React, Node.js, and MongoDB.',
+    technologies: ['React', 'Node.js', 'MongoDB', 'Express'],
+    url: 'github.com/johndoe/ecommerce',
+    github: 'github.com/johndoe/ecommerce',
+    startDate: '2020',
+    endDate: '2020'
   }
+];
+
+const defaultCertifications: Certification[] = [
+  {
+    id: '1',
+    name: 'AWS Certified Solutions Architect',
+    issuer: 'Amazon Web Services',
+    date: '2021'
+  }
+];
+
+const defaultLanguages: Language[] = [
+  { id: '1', name: 'English', level: 'native' },
+  { id: '2', name: 'Spanish', level: 'intermediate' }
+];
+
+const defaultInterests: Interest[] = [
+  { id: '1', name: 'Programming', category: 'Technical' },
+  { id: '2', name: 'Hiking', category: 'Outdoor' }
 ];
 
 const defaultResume: Resume = {
@@ -69,10 +87,21 @@ const defaultResume: Resume = {
   education: defaultEducation,
   skills: defaultSkills,
   projects: defaultProjects,
-  certifications: [],
-  languages: [],
-  interests: [],
-  customSections: [],
+  certifications: defaultCertifications,
+  languages: defaultLanguages,
+  interests: defaultInterests,
+  customSections: [
+    {
+      id: '1',
+      title: 'References',
+      content: 'Jane Smith - CTO at Tech Solutions Inc. | Email: jane.smith@example.com | Phone: (123) 456-7890 | Direct supervisor for 3 years.'
+    },
+    {
+      id: '2',
+      title: 'Volunteer Experience',
+      content: 'Code Mentor at Code.org (2018 - Present) - Mentoring high school students in programming.'
+    }
+  ],
   template: 'modern',
 };
 
@@ -90,14 +119,14 @@ export const useResumeData = () => {
         setResume({
           ...defaultResume,
           ...parsedResume,
-          workExperience: parsedResume.workExperience || [],
-          education: parsedResume.education || [],
-          skills: parsedResume.skills || [],
-          projects: parsedResume.projects || [],
-          certifications: parsedResume.certifications || [],
-          languages: parsedResume.languages || [],
-          interests: parsedResume.interests || [],
-          customSections: parsedResume.customSections || [],
+          workExperience: parsedResume.workExperience || defaultWorkExperience,
+          education: parsedResume.education || defaultEducation,
+          skills: parsedResume.skills || defaultSkills,
+          projects: parsedResume.projects || defaultProjects,
+          certifications: parsedResume.certifications || defaultCertifications,
+          languages: parsedResume.languages || defaultLanguages,
+          interests: parsedResume.interests || defaultInterests,
+          customSections: parsedResume.customSections || defaultResume.customSections,
         });
       } catch (error) {
         console.error('Error parsing saved resume data:', error);
